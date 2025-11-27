@@ -1,35 +1,28 @@
-import java.util.Date; // Cần import lớp Date
+import java.time.LocalDateTime;
 
 public class Transaction {
-    private String maGiaoDich;
-    private String loaiGiaoDich; 
+    private String id;
+    private String soTaiKhoan;
+    private String loaiGiaoDich; // deposit, withdraw, transfer
     private double soTien;
-    private Date thoiGian;
-    private String moTa;
+    private LocalDateTime thoiGian;
 
-    // Constructor 
-    public Transaction(String maGiaoDich, String loaiGiaoDich, double soTien, String moTa) {
-        this.maGiaoDich = maGiaoDich;
+    public Transaction(String id, String soTaiKhoan, String loaiGiaoDich, double soTien) {
+        this.id = id;
+        this.soTaiKhoan = soTaiKhoan;
         this.loaiGiaoDich = loaiGiaoDich;
         this.soTien = soTien;
-        this.moTa = moTa;
-        this.thoiGian = new Date(); // Ghi lại thời điểm tạo giao dịch
-    }
-
-    // Bạn nên thêm Getters ở đây để truy xuất thông tin lịch sử giao dịch
-    public String getLoaiGiaoDich() {
-        return loaiGiaoDich;
-    }
-    public double getSoTien() {
-        return soTien;
-    }
-    public Date getThoiGian() {
-        return thoiGian;
+        this.thoiGian = LocalDateTime.now();
     }
 
     @Override
     public String toString() {
-        return "GD: " + maGiaoDich + " | Loại: " + loaiGiaoDich + " | Số tiền: " + soTien 
-    + " | Thời gian: " + thoiGian;
+        return "Transaction{" +
+                "id='" + id + '\'' +
+                ", soTK='" + soTaiKhoan + '\'' +
+                ", loaiGD='" + loaiGiaoDich + '\'' +
+                ", soTien=" + soTien +
+                ", thoiGian=" + thoiGian +
+                '}';
     }
 }
