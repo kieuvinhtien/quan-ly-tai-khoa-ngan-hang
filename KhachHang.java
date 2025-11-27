@@ -1,46 +1,39 @@
 public class KhachHang {
-    private String id;
-    private String tenKH;
-    private String diachi;
-    private String sdt;
+    private String maKH;
+    private String hoTen;
+    private String soCCCD;
+    private String diaChi;
 
-    public KhachHang(String id, String tenKH, String diachi, String sdt) {
-        this.id = id;
-        this.tenKH = tenKH;
-        this.diachi = diachi;
-        this.sdt = sdt;
-    }
-
-    public String getid() {
-        return id;
+    public KhachHang(String maKH, String hoTen, String soCCCD, String diaChi) {
+        this.maKH = maKH;
+        this.hoTen = hoTen;
+        this.soCCCD = soCCCD;
+        this.diaChi = diaChi;
     }
 
-    public String gettenKH() {
-        return tenKH;
+    public String getMaKH() {
+        return maKH;
     }
 
-    public String getdiachi() {
-        return diachi;
+    public String getHoTen() {
+        return hoTen;
     }
 
-    public String getsdt() {
-        return sdt;
+    public String getSoCCCD() {
+        return soCCCD;
     }
-    public void setid(String id) {
-        this.id = id;
-    }
-    public void settenKH(String tenKH)  {
-        this.tenKH = tenKH;
-    }
-    public void setdiachi(String diachi){
-        this.diachi = diachi;
-    }
-    public void setsdt(String sdt){
-        this.sdt = sdt;
+
+    public String getDiaChi() {
+        return diaChi;
     }
 
     @Override
     public String toString() {
-        return "Mã KH: " + id + ", Tên: " + tenKH + ", Địa chỉ: " + diachi + ", Số điện thoại:" + sdt;
+        return "KhachHang{" +
+                "maKH='" + maKH + '\'' +
+                ", hoTen='" + hoTen + '\'' +
+                ", soCCCD='" + soCCCD + '\'' +
+                ", diaChi='" + diaChi + '\'' +
+                '}';
     }
 }
