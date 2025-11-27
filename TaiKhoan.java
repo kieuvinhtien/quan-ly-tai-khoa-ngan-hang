@@ -1,42 +1,74 @@
-import java.util.ArrayList;
+import java.time.LocalDate;
 
 public class TaiKhoan {
-    
     private String soTaiKhoan;
+    private KhachHang chuSoHuu;
     private double soDu;
-    private String loaiTaiKhoan;
-    private ArrayList<Transaction> transactions; // Đã chuẩn hóa tên
+    private LocalDate ngayMo;
+    private boolean trangThai; // true = hoạt động, false = khóa
 
-    // Constructor
-    public TaiKhoan(String soTaiKhoan, double soDu, String loaiTaiKhoan){
+    public TaiKhoan(String soTaiKhoan, KhachHang chuSoHuu) {
         this.soTaiKhoan = soTaiKhoan;
-        this.soDu = soDu;
-        this.loaiTaiKhoan = loaiTaiKhoan;
-        this.transactions = new ArrayList<>(); 
+        this.chuSoHuu = chuSoHuu;
+        this.soDu = 0;
+        this.ngayMo = LocalDate.now();
+        this.trangThai = true;
     }
 
-    
-    public String getSoTaiKhoan(){
+    public String getSoTaiKhoan() {
         return soTaiKhoan;
     }
-    public double getSoDu(){
+
+    public KhachHang getChuSoHuu() {
+        return chuSoHuu;
+    }
+
+    public double getSoDu() {
         return soDu;
     }
-    public String getLoaiTaiKhoan(){
-        return loaiTaiKhoan;
+
+    public boolean isHoatDong() {
+        return trangThai;
     }
 
-    public ArrayList<Transaction> getTransactions() {
-        return transactions;
+    public void deposit(double amount) {
+        if (!trangThai) {
+            System.out.println("Tài khoản đang bị khóa!");
+            return;
+        }
+        if (amount > 0) {
+            soDu += amount;
+        }
     }
 
-    public void setSoTaiKhoan(String soTaiKhoan){
-        this.soTaiKhoan = soTaiKhoan;
+    public boolean withdraw(double amount) {
+        if (!trangThai) {
+            System.out.println("Tài khoản đang bị khóa!");
+            return false;
+        }
+        if (amount > 0 && amount <= soDu) {
+            soDu -= amount;
+            return true;
+        }
+        return false;
     }
-    public void setSoDu(double soDu){
-        this.soDu = soDu;
+
+    public boolean transfer(TaiKhoan to, double amount) {
+        if (withdraw(amount)) {
+            to.deposit(amount);
+            return true;
+        }
+        return false;
     }
-    public void setLoaiTaiKhoan(String loaiTaiKhoan){
-        this.loaiTaiKhoan = loaiTaiKhoan;
+
+    @Override
+    public String toString() {
+        return "TaiKhoan{" +
+                "soTK='" + soTaiKhoan + '\'' +
+                ", chuSoHuu=" + chuSoHuu.getHoTen() +
+                ", soDu=" + soDu +
+                ", ngayMo=" + ngayMo +
+                ", trangThai=" + (trangThai ? "Hoạt động" : "Khóa") +
+                '}';
     }
 }
