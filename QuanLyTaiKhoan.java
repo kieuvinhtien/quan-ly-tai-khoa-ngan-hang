@@ -1,51 +1,52 @@
-import java.util.ArrayList;
-import java.util.List;
+package BankApp.src.model;
+
+import java.sql.*;
 
 public class QuanLyTaiKhoan {
-    private List<TaiKhoan> danhSachTK = new ArrayList<>();
-    private List<Transaction> lichSuGD = new ArrayList<>();
 
-    public void themTaiKhoan(TaiKhoan tk) {
-        danhSachTK.add(tk);
-    }
+    public TaiKhoan getTaiKhoan(int soTK) {
+        try (Connection conn = Database.getConnection()) {
+            String sql = "SELECT * FROM taikhoan WHERE soTK=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, soTK);
+            ResultSet rs = ps.executeQuery();
 
-    public TaiKhoan timTaiKhoan(String soTK) {
-        for (TaiKhoan tk : danhSachTK) {
-            if (tk.getSoTaiKhoan().equals(soTK)) {
-                return tk;
+            if (rs.next()) {
+                return new TaiKhoan(
+                        rs.getInt("soTK"),
+                        rs.getInt("idKH"),
+                        rs.getDouble("soDu")
+                );
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    public void napTien(String soTK, double amount) {
-        TaiKhoan tk = timTaiKhoan(soTK);
-        if (tk != null) {
-            tk.deposit(amount);
-            lichSuGD.add(new Transaction("GD" + lichSuGD.size(), soTK, "DEPOSIT", amount));
-        }
+    public boolean napTien(int soTK, double soTien) {
+        try (Connection conn = Database.getConnection()) {
+            String sql = "UPDATE taikhoan SET soDu = soDu + ? WHERE soTK=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setDouble(1, soTien);
+            ps.setInt(2, soTK);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) { e.printStackTrace(); }
+        return false;
     }
 
-    public void rutTien(String soTK, double amount) {
-        TaiKhoan tk = timTaiKhoan(soTK);
-        if (tk != null && tk.withdraw(amount)) {
-            lichSuGD.add(new Transaction("GD" + lichSuGD.size(), soTK, "WITHDRAW", amount));
-        }
-    }
+    public boolean rutTien(int soTK, double soTien) {
+        TaiKhoan tk = getTaiKhoan(soTK);
+        if (tk == null || tk.getSoDu() < soTien) return false;
 
-    public void chuyenTien(String from, String to, double amount) {
-        TaiKhoan tkFrom = timTaiKhoan(from);
-        TaiKhoan tkTo = timTaiKhoan(to);
-
-        if (tkFrom != null && tkTo != null && tkFrom.transfer(tkTo, amount)) {
-            lichSuGD.add(new Transaction("GD" + lichSuGD.size(), from, "TRANSFER_OUT", amount));
-            lichSuGD.add(new Transaction("GD" + lichSuGD.size(), to, "TRANSFER_IN", amount));
-        }
-    }
-
-    public void inLichSu() {
-        for (Transaction gd : lichSuGD) {
-            System.out.println(gd);
-        }
+        try (Connection conn = Database.getConnection()) {
+            String sql = "UPDATE taikhoan SET soDu = soDu - ? WHERE soTK=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setDouble(1, soTien);
+            ps.setInt(2, soTK);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) { e.printStackTrace(); }
+        return false;
     }
 }
+

@@ -1,39 +1,22 @@
+package BankApp.src.model;
+
 public class KhachHang {
-    private String maKH;
-    private String hoTen;
-    private String soCCCD;
+    private int id;
+    private String ten;
     private String diaChi;
 
-    public KhachHang(String maKH, String hoTen, String soCCCD, String diaChi) {
-        this.maKH = maKH;
-        this.hoTen = hoTen;
-        this.soCCCD = soCCCD;
+    public KhachHang(int id, String ten, String diaChi) {
+        this.id = id;
+        this.ten = ten;
         this.diaChi = diaChi;
     }
 
-    public String getMaKH() {
-        return maKH;
-    }
-
-    public String getHoTen() {
-        return hoTen;
-    }
-
-    public String getSoCCCD() {
-        return soCCCD;
-    }
-
-    public String getDiaChi() {
-        return diaChi;
-    }
+    public int getId() { return id; }
+    public String getTen() { return ten; }
+    public String getDiaChi() { return diaChi; }
 
     @Override
     public String toString() {
-        return "KhachHang{" +
-                "maKH='" + maKH + '\'' +
-                ", hoTen='" + hoTen + '\'' +
-                ", soCCCD='" + soCCCD + '\'' +
-                ", diaChi='" + diaChi + '\'' +
-                '}';
+        return ten + " - " + id;
     }
 }
