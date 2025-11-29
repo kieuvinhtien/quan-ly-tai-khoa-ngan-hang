@@ -1,1 +1,0 @@
-# quan-ly-tai-khoa-ngan-hang
